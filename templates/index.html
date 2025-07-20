@@ -1,101 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Used Car Price Predictor</title>
-    <style>
-        body {
-            background: #f5f5f5;
-            font-family: Arial, sans-serif;
-            padding: 30px;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 600px;
-            margin: auto;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        label {
-            display: block;
-            margin-top: 15px;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            margin-top: 20px;
-            width: 100%;
-            padding: 12px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .result {
-            margin-top: 20px;
-            font-size: 20px;
-            color: #000;
-            font-weight: bold;
-            text-align: center;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Car Price Predictor</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-image: url("https://images.unsplash.com/photo-1503736334956-4c8f8e92946d");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: white;
+    }
+    .container {
+      max-width: 500px;  /*  Reduced width */
+      margin: 60px auto;
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+    }
+    label {
+      font-weight: bold;
+    }
+    .form-control {
+      background-color: #f2f2f2;
+      color: #000;
+    }
+    .btn {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>🚗 Used Car Price Predictor</h2>
-        <form action="/predict" method="POST">
-            <label for="brand">Select Brand:</label>
-            <select name="brand" required>
-                {% for brand in brands %}
-                    <option value="{{ brand }}">{{ brand }}</option>
-                {% endfor %}
-            </select>
+  <div class="container">
+    <h3 class="text-center mb-4">🚗 Car Price Predictor</h3>
+    <form method="POST" action="/predict">
+      <div class="form-group">
+        <label for="brand">Brand</label>
+        <select class="form-control" name="brand" id="brand" required>
+          {% for b in brands %}
+          <option value="{{ b }}">{{ b }}</option>
+          {% endfor %}
+        </select>
+      </div>
 
-            <label for="year">Enter Year of Purchase:</label>
-            <input type="number" name="year" min="1990" max="2025" required>
+      <div class="form-group">
+        <label for="year">Year</label>
+        <input type="number" class="form-control" name="year" id="year" value="2015" min="1990" max="2025" step="1" required>
+      </div>
 
-            <label for="kms">Enter Kilometers Driven:</label>
-            <input type="number" name="kms" min="0" required>
+      <div class="form-group">
+        <label for="kms">Kilometers Driven</label>
+        <input type="number" class="form-control" name="kms" id="kms" value="50000" min="0" step="1000" required>
+      </div>
 
-            <label for="vehicle_type">Transmission Type:</label>
-            <select name="vehicle_type" required>
-                <option value="Manual">Manual</option>
-                <option value="Automatic">Automatic</option>
-            </select>
+      <div class="form-group">
+        <label for="vehicle_type">Transmission</label>
+        <select class="form-control" name="vehicle_type" id="vehicle_type" required>
+          <option value="Manual">Manual</option>
+          <option value="Automatic">Automatic</option>
+        </select>
+      </div>
 
-            <label for="owner">Ownership:</label>
-            <select name="owner" required>
-                <option value="first">First Owner</option>
-                <option value="second">Second/More</option>
-            </select>
+      <div class="form-group">
+        <label for="owner">Owner</label>
+        <select class="form-control" name="owner" id="owner" required>
+          <option value="first">First</option>
+          <option value="second">Second or More</option>
+        </select>
+      </div>
 
-            <label for="fuel_type">Fuel Type:</label>
-            <select name="fuel_type" required>
-                <option value="Petrol">Petrol</option>
-                <option value="Diesel">Diesel</option>
-                <option value="CNG">CNG</option>
-            </select>
+      <div class="form-group">
+        <label for="fuel_type">Fuel Type</label>
+        <select class="form-control" name="fuel_type" id="fuel_type" required>
+          <option value="Petrol">Petrol</option>
+          <option value="Diesel">Diesel</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
 
-            <button type="submit">Predict Price</button>
-        </form>
+      <button type="submit" class="btn btn-success btn-block">Predict Price</button>
+    </form>
 
-        {% if prediction != None %}
-            <div class="result">
-                💰 Estimated Price: ₹ {{ prediction }} Lakhs
-            </div>
-        {% endif %}
+    {% if prediction is not none %}
+    <div class="alert alert-info text-center mt-4">
+      💰 Estimated Price: ₹ {{ prediction }} Lakhs
     </div>
+    {% endif %}
+  </div>
 </body>
 </html>
