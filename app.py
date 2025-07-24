@@ -1,9 +1,12 @@
 from flask import Flask, render_template, request
 import pickle
 import numpy as np
-
+import os
 app = Flask(__name__)
-model = pickle.load(open('car.pkl', 'rb'))
+
+model_path = os.path.join(os.path.dirname(__file__), 'car.pkl')
+model = pickle.load(open(model_path, 'rb'))
+
 
 brand_map = {
     "Maruti Suzuki": 0, "Hyundai": 1, "Honda": 2, "Toyota": 3,
